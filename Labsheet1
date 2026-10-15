@@ -1,0 +1,180 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+# =====================================================================
+# 11. Load a CSV dataset using the Pandas library
+# =====================================================================
+# Creating a dummy CSV file for demonstration purposes
+data = {
+    "Student_ID":,
+    "Age": [20, 21, 19, np.nan, 22, 22, 20],
+    "Score": [85.5, 90.0, 78.5, 88.0, np.nan, 90.0, 95.0],
+    "Branch": ["CSE", "ECE", "CSE", "ME", "CSE", "CSE", "EE"],
+}
+df_dummy = pd.DataFrame(data)
+df_dummy.to_csv("students.csv", index=False)
+
+# Loading the CSV file
+df = pd.read_csv("students.csv")
+
+# =====================================================================
+# 12. Display the first five records
+# =====================================================================
+print("--- First 5 Records ---")
+print(df.head(5))
+
+# =====================================================================
+# 13. Display the last five records
+# =====================================================================
+print("\n--- Last 5 Records ---")
+print(df.tail(5))
+
+# =====================================================================
+# 14. Find total number of rows and columns
+# =====================================================================
+rows, cols = df.shape
+print(f"\nTotal Rows: {rows}, Total Columns: {cols}")
+
+# =====================================================================
+# 15. Display the names of all columns
+# =====================================================================
+print("\nColumn Names:", df.columns.tolist())
+
+# =====================================================================
+# 16. Check the data types of all columns
+# =====================================================================
+print("\n--- Data Types ---")
+print(df.dtypes)
+
+# =====================================================================
+# 17. Generate descriptive statistics of numerical features
+# =====================================================================
+print("\n--- Descriptive Statistics ---")
+print(df.describe())
+
+# =====================================================================
+# 18. Display complete information about the dataset
+# =====================================================================
+print("\n--- Dataset Info ---")
+df.info()
+
+# =====================================================================
+# 19 & 20. Identify and count missing values in each column
+# =====================================================================
+print("\n--- Missing Values Count per Column ---")
+print(df.isnull().sum())
+
+# =====================================================================
+# 21. Display unique values present in a selected column
+# =====================================================================
+print("\nUnique Branches:", df["Branch"].unique())
+
+# =====================================================================
+# 22. Count the frequency of each unique value in a column
+# =====================================================================
+print("\n--- Branch Value Counts ---")
+print(df["Branch"].value_counts())
+
+# =====================================================================
+# 23. Rename one or more columns
+# =====================================================================
+df = df.rename(columns={"Score": "Exam_Score", "Branch": "Department"})
+
+# =====================================================================
+# 24. Select specific rows and columns using loc[] (Label-based)
+# =====================================================================
+# Select rows from index 0 to 2, and columns 'Age' and 'Department'
+print("\n--- Label-based Selection (loc) ---")
+print(df.loc[0:2, ["Age", "Department"]])
+
+# =====================================================================
+# 25. Select specific rows and columns using iloc[] (Integer position-based)
+# =====================================================================
+# Select first 3 rows and first 2 columns
+print("\n--- Position-based Selection (iloc) ---")
+print(df.iloc[0:3, 0:2])
+
+# =====================================================================
+# 26. Filter records based on a given condition
+# =====================================================================
+print("\n--- Filtered Records (Age > 20) ---")
+filtered_df = df[df["Age"] > 20]
+print(filtered_df)
+
+# =====================================================================
+# 27. Sort the dataset using one or more columns
+# =====================================================================
+print("\n--- Sorted Dataset by Age ---")
+sorted_df = df.sort_values(by="Age", ascending=True)
+print(sorted_df)
+
+# =====================================================================
+# 28. Add a new column to an existing dataset
+# =====================================================================
+df["Passed"] = df["Exam_Score"] >= 40
+
+# =====================================================================
+# 29. Delete an existing column
+# =====================================================================
+df = df.drop(columns=["Student_ID"])
+
+# =====================================================================
+# 30. Remove duplicate records
+# =====================================================================
+print(f"\nRows before removing duplicates: {len(df)}")
+df = df.drop_duplicates()
+print(f"Rows after removing duplicates: {len(df)}")
+
+# =====================================================================
+# 31. Save the modified dataset as a new CSV file
+# =====================================================================
+df.to_csv("modified_students.csv", index=False)
+print("\nModified dataset saved to 'modified_students.csv'.")
+
+# =====================================================================
+# 32. Load a dataset directly from the Scikit-learn library
+# =====================================================================
+iris = load_iris()
+iris_df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+print("\n--- Scikit-learn Iris Dataset (First 3 rows) ---")
+print(iris_df.head(3))
+
+# =====================================================================
+# 33. Create a histogram for a numerical feature using Matplotlib
+# =====================================================================
+plt.figure(figsize=(6, 4))
+plt.hist(iris_df["sepal length (cm)"], bins=10, color="skyblue", edgecolor="black")
+plt.title("Histogram of Sepal Length")
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Frequency")
+plt.grid(axis="y", alpha=0.75)
+plt.show()
+
+# =====================================================================
+# 34. Create a scatter plot to visualize relationships
+# =====================================================================
+plt.figure(figsize=(6, 4))
+plt.scatter(
+    iris_df["sepal length (cm)"],
+    iris_df["sepal width (cm)"],
+    color="purple",
+    alpha=0.7,
+)
+plt.title("Sepal Length vs Sepal Width")
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Sepal Width (cm)")
+plt.grid(True)
+plt.show()
+
+# =====================================================================
+# 35. Generate a correlation matrix and visualize it using a heatmap
+# =====================================================================
+plt.figure(figsize=(6, 4))
+corr_matrix = iris_df.corr()
+sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5)
+plt.title("Correlation Matrix Heatmap (Iris Dataset)")
+plt.show()
+# Ml-labsheet1
